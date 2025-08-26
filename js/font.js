@@ -1,5 +1,5 @@
   (function () {
-    // Dodaj klasę po gotowości obu rodzin
+    // Add a class after both font families are loaded
     Promise.all([
       document.fonts.load('1em Inter'),
       document.fonts.load('700 1em FrankRuhlLibre')
