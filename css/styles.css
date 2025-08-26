@@ -1,0 +1,42 @@
+/* Keep this css code to improve the font quality */
+  * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -o-font-smoothing: antialiased;
+}
+
+/* 3) Deklaracje @font-face — zakres wag = variable */
+@font-face {
+  font-family: 'Inter';
+  src: url('https://cdn.jsdelivr.net/gh/jakubvd/kan-cza/fonts/Inter-VF.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block; /* blokuj tekst aż font będzie (krótko, bo preload) */
+}
+@font-face {
+  font-family: 'FrankRuhlLibre';
+  src: url('https://cdn.jsdelivr.net/gh/jakubvd/kan-cza/fonts/FrankRuhlLibre-VF.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;
+}
+
+/* 4) Mapowanie rodzin: body = Inter, heading = FrankRuhlLibre */
+:root {
+  --font-base: 'Inter', sans-serif;
+  --font-heading: 'FrankRuhlLibre', serif;
+}
+body { font-family: var(--font-base); }
+h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
+
+/* 5) „Bramka” na migotanie: ukryj tylko hero do czasu załadowania obu fontów */
+[data-font-guard] {
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.fonts-ready [data-font-guard] {
+  opacity: 1;
+}
+
+
+
