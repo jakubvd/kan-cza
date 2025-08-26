@@ -29,6 +29,11 @@
 body { font-family: var(--font-base); }
 h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
+/* 4.1) Optional override: force body font for selected headings via data attribute */
+[data-font="base"] {
+  font-family: var(--font-base) !important;
+}
+
 /* 5) FOIT guard: hide only hero section until both fonts are loaded */
 [data-font-guard] {
   opacity: 0;
