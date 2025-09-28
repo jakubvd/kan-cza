@@ -94,18 +94,17 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
     0px 2px 6px rgba(0, 0, 0, 0.12),
     0px 1px 3px rgba(0, 0, 0, 0.06),
     0px 0px 6px rgba(255, 215, 0, 0.18),
-    0px 6px 12px rgba(255, 215, 0, 0.25); /* stronger golden bottom shadow */
-  border: 1px solid rgba(255, 215, 0, 0.4); /* lighter gold outline */
+    0px 4px 8px rgba(255, 215, 0, 0.18); /* softer golden bottom shadow */
 }
 
 /* Hover */
 .button.is-primary:hover {
   filter: brightness(1.04) saturate(1.6);
   box-shadow: 
-    0px 4px 12px rgba(0, 0, 0, 0.14),
-    0px 2px 5px rgba(0, 0, 0, 0.08),
-    0px 0px 10px rgba(255, 215, 0, 0.28),
-    0px 6px 14px rgba(255, 215, 0, 0.20); /* satin golden glow */
+    0px 4px 10px rgba(0, 0, 0, 0.12),
+    0px 2px 4px rgba(0, 0, 0, 0.07),
+    0px 0px 8px rgba(255, 215, 0, 0.22),
+    0px 4px 10px rgba(255, 215, 0, 0.18); /* subtle gold shine */
 }
 
 /* Focus – keyboard accessibility */
