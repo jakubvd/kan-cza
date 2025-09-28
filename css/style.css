@@ -44,12 +44,14 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 }
 
 /* Button secondary styles */
+
+/* Static state look (premium base appearance) */
 .button.is-secondary {
-  /* start state */
-  filter: brightness(1) saturate(1);
-  transition: filter 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95), box-shadow 0.4s ease-in-out; 
+  filter: brightness(1.05) saturate(1.05); /* subtle enhancement */
+  transition: filter 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95), box-shadow 0.4s ease-in-out;
   /* easeInOutSine */
-  box-shadow: 0px 2px 5px rgba(37, 37, 37, 0.35);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.12),
+              0px 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* hover */
