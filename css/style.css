@@ -43,5 +43,45 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   opacity: 1;
 }
 
+/* Button secondary styles */
+.button.is-secondary {
+  /* start state */
+  filter: brightness(1) saturate(1);
+  transition: filter 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95), box-shadow 0.4s ease-in-out; 
+  /* easeInOutSine */
+  box-shadow: 0px 2px 5px rgba(37, 37, 37, 0.35);
+}
+
+/* hover */
+.button.is-secondary:hover {
+  filter: brightness(1.5) saturate(2);
+  box-shadow: 0px 6px 18px rgba(37, 37, 37, 0.25),
+              0px 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Focus – keyboard accessibility */
+.button.is-secondary:focus {
+  filter: brightness(1.4) saturate(1.8);
+  outline: 2px solid #0047ff;   /* visible focus indicator */
+  outline-offset: 3px;
+}
+
+/* Active (mouse down / pressed) */
+.button.is-secondary:active {
+  filter: brightness(1.2) saturate(1.5);
+  transform: scale(0.98); /* subtle press effect */
+}
+
+/* Disabled (if <button disabled>) */
+.button.is-secondary:disabled,
+.button.is-secondary[disabled] {
+  filter: brightness(0.9) saturate(0.8);
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
 
 
