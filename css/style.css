@@ -84,6 +84,43 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   pointer-events: none;
 }
 
+/* Main button (gold) styles */
 
+/* Static state look (premium base appearance) */
+.button.is-primary {
+  filter: brightness(1) saturate(1);
+  transition: filter 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95), box-shadow 0.4s ease-in-out;
+  box-shadow: 0px 2px 6px rgba(255, 215, 0, 0.4),
+              0px 1px 3px rgba(255, 215, 0, 0.25);
+}
 
+/* Hover */
+.button.is-primary:hover {
+  filter: brightness(1.05) saturate(2);
+  box-shadow: 0px 6px 18px rgba(255, 215, 0, 0.35),
+              0px 3px 8px rgba(255, 215, 0, 0.25);
+}
 
+/* Focus – keyboard accessibility */
+.button.is-primary:focus {
+  filter: brightness(1.04) saturate(1.8);
+  outline: 2px solid #ffd700;   /* gold outline */
+  outline-offset: 3px;
+}
+
+/* Active (mouse down / pressed) */
+.button.is-primary:active {
+  filter: brightness(0.95) saturate(1.5);
+  transform: scale(0.98);
+  box-shadow: 0px 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Disabled */
+.button.is-primary:disabled,
+.button.is-primary[disabled] {
+  filter: brightness(0.9) saturate(0.8);
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
