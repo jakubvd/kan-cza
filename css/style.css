@@ -105,6 +105,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
     0px 2px 4px rgba(0, 0, 0, 0.07),
     0px 0px 8px rgba(255, 215, 0, 0.22),
     0px 4px 10px rgba(255, 215, 0, 0.18); /* subtle gold shine */
+  animation: gold-shimmer 2s infinite ease-in-out;
 }
 
 /* Focus – keyboard accessibility */
@@ -129,4 +130,28 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   cursor: not-allowed;
   pointer-events: none;
   box-shadow: none;
+}
+
+@keyframes gold-shimmer {
+  0% {
+    box-shadow: 
+      0px 4px 10px rgba(0, 0, 0, 0.12),
+      0px 2px 4px rgba(0, 0, 0, 0.07),
+      0px 0px 8px rgba(255, 215, 0, 0.22),
+      0px 4px 10px rgba(255, 215, 0, 0.18);
+  }
+  50% {
+    box-shadow: 
+      0px 4px 12px rgba(0, 0, 0, 0.12),
+      0px 2px 5px rgba(0, 0, 0, 0.08),
+      0px 0px 12px rgba(255, 223, 100, 0.35),
+      0px 6px 12px rgba(255, 215, 0, 0.28);
+  }
+  100% {
+    box-shadow: 
+      0px 4px 10px rgba(0, 0, 0, 0.12),
+      0px 2px 4px rgba(0, 0, 0, 0.07),
+      0px 0px 8px rgba(255, 215, 0, 0.22),
+      0px 4px 10px rgba(255, 215, 0, 0.18);
+  }
 }
