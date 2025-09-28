@@ -105,7 +105,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
     0px 2px 4px rgba(0, 0, 0, 0.07),
     0px 0px 8px rgba(255, 215, 0, 0.22),
     0px 4px 10px rgba(255, 215, 0, 0.18); /* subtle gold shine */
-  animation: gold-shimmer 2s infinite ease-in-out;
+  animation: gold-shimmer 4s infinite ease-in-out;
 }
 
 /* Focus – keyboard accessibility */
@@ -130,7 +130,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   cursor: not-allowed;
   pointer-events: none;
   box-shadow: none;
-}
+} 
 
 @keyframes gold-shimmer {
   0% {
