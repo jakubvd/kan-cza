@@ -188,30 +188,13 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 }
 
 /* Testimonial marquee animation */
-.section_home-testimonial {
-  overflow: hidden;
-  position: relative;
-}
-
-.home-testimonial_component {
-  display: flex;
-  width: max-content;
-}
-
 .home-testimonial_loop-trigger {
-  display: flex;
-  gap: 2rem;
   animation: testimonial-scroll 60s linear infinite;
 }
 
-.home-testimonial_card {
-  flex: 0 0 auto;
-  min-width: 320px; /* adjust if needed */
-  max-width: 400px;
-}
-
 /* Pause animation when hovering an individual card */
-.home-testimonial_card:hover {
+.home-testimonial_card:hover ~ .home-testimonial_loop-trigger,
+.home-testimonial_loop-trigger:hover {
   animation-play-state: paused;
 }
 
@@ -219,8 +202,6 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 @media (prefers-reduced-motion: reduce) {
   .home-testimonial_loop-trigger {
     animation: none !important;
-    transform: none !important;
-    flex-wrap: wrap;
   }
 }
 
