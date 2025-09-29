@@ -203,3 +203,9 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); } /* half width for duplicated track */
 }
+
+
+/* Fallback: if JS is disabled, allow hover to pause marquee */
+body:not(.js-enabled) .home-testimonial_component:hover {
+  animation-play-state: paused;
+}
