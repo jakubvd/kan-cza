@@ -7,12 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!component || cards.length === 0) return;
 
-  // Accessibility: disable script if user prefers reduced motion
+  // Accessibility: detect reduced motion (handled in CSS), but still allow hover pause
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) {
-    component.style.animation = "none";
-    return;
-  }
 
   let pauseTimeout;
 
