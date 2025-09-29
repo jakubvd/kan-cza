@@ -189,13 +189,13 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
 /* Testimonial marquee animation */
 .home-testimonial_component {
-  animation: testimonial-scroll 120s linear infinite;
+  animation: testimonial-scroll 240s linear infinite;
 }
 
 /* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
   .home-testimonial_component {
-    animation: testimonial-scroll 480s linear infinite; /* slower animation */
+    animation: testimonial-scroll 1000s linear infinite; /* slower animation */
   }
 }
 
