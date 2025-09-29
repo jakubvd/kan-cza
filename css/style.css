@@ -189,7 +189,8 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
 /* Testimonial marquee animation */
 .home-testimonial_loop-trigger {
-  animation: testimonial-scroll 60s linear infinite;
+  animation: testimonial-scroll 200s linear infinite;
+  transition: transform 0.6s ease-in-out; /* soft pause effect */
 }
 
 /* Pause animation when hovering an individual card */
