@@ -188,25 +188,29 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 }
 
 /* Testimonial marquee animation */
-.home-testimonial_loop-trigger {
-  animation: testimonial-scroll 200s linear infinite;
-  transition: transform 0.6s ease-in-out; /* soft pause effect */
+.home-testimonial_component {
+  display: flex;
+  animation: testimonial-scroll 30s linear infinite;
 }
 
-/* Pause animation when hovering an individual card */
-.home-testimonial_card:hover ~ .home-testimonial_loop-trigger,
-.home-testimonial_loop-trigger:hover {
-  animation-play-state: paused;
+.home-testimonial_loop-trigger {
+  display: flex;
+}
+
+.home-testimonial_card {
+  flex: 0 0 auto;
+  min-width: 320px;
+  max-width: 400px;
 }
 
 /* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .home-testimonial_loop-trigger {
+  .home-testimonial_component {
     animation: none !important;
   }
 }
 
 @keyframes testimonial-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
+  to   { transform: translateX(-50%); } /* half width for duplicated track */
 }
