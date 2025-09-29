@@ -126,7 +126,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
 /* Hover */
 .button.is-primary:hover {
-  filter: brightness(1.03) saturate(1.4);
+  filter: brightness(1.04) saturate(1.5);
   box-shadow: 
     0px 4px 10px rgba(0, 0, 0, 0.12),
     0px 2px 4px rgba(0, 0, 0, 0.07),
