@@ -189,18 +189,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
 /* Testimonial marquee animation */
 .home-testimonial_component {
-  display: flex;
   animation: testimonial-scroll 30s linear infinite;
-}
-
-.home-testimonial_loop-trigger {
-  display: flex;
-}
-
-.home-testimonial_card {
-  flex: 0 0 auto;
-  min-width: 320px;
-  max-width: 400px;
 }
 
 /* Reduced motion accessibility */
