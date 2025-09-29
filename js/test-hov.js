@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.body.classList.add("js-enabled");
   const component = document.querySelector(".home-testimonial_component");
   const cards = document.querySelectorAll(".home-testimonial_card");
 

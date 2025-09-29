@@ -65,11 +65,14 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
 
 /* Focus – keyboard accessibility */
-.button.is-secondary:focus {
-  filter: brightness(1.4) saturate(1.8);
-  outline: 2px solid #0047ff;   /* visible focus indicator */
-  outline-offset: 3px;
-}
+  .button.is-secondary:focus {
+    outline: none; /* reset default focus */
+  }
+  .button.is-secondary:focus-visible {
+    filter: brightness(1.4) saturate(1.8);
+    outline: 2px solid #0047ff;   /* visible focus indicator */
+    outline-offset: 3px;
+  }
 
 /* Active (mouse down / pressed) */
 .button.is-secondary:active {
@@ -132,11 +135,14 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 }
 
 /* Focus – keyboard accessibility */
-.button.is-primary:focus {
-  filter: brightness(1.04) saturate(1.8);
-  outline: 2px solid #ffd700;   /* gold outline */
-  outline-offset: 3px;
-}
+  .button.is-primary:focus {
+    outline: none; /* reset default focus */
+  }
+  .button.is-primary:focus-visible {
+    filter: brightness(1.04) saturate(1.8);
+    outline: 2px solid #ffd700;   /* gold outline */
+    outline-offset: 3px;
+  }
 
 /* Active (mouse down / pressed) */
 .button.is-primary:active {
