@@ -226,5 +226,6 @@ body:not(.js-enabled) .home-testimonial_component:hover {
 /* Hidden state before correct tab activation (used by JS) */
 .oferta_tabs.hidden-before-init {
   opacity: 0;
-  visibility: hidden;
+  pointer-events: none;
+  visibility: visible; /* keep layout space reserved */
 }

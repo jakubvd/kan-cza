@@ -32,14 +32,19 @@ window.Webflow.push(function () {
     const btn = wrapper.querySelector('.w-tab-menu [data-w-tab="' + tabName + '"]');
     if (!btn) return;
 
-    // Click after a short delay to ensure Webflow Tabs are ready
     setTimeout(() => {
       btn.click();
 
       // Reveal section smoothly after activation
       wrapper.classList.remove('hidden-before-init');
       document.documentElement.classList.remove('targeting-tab'); // Remove guard class
-      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Scroll only if user has already interacted (not on first page load)
+      if (window._tabActivatedOnce) {
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window._tabActivatedOnce = true;
+      }
     }, 60);
   }
 
