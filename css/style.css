@@ -215,3 +215,16 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 body:not(.js-enabled) .home-testimonial_component:hover {
   animation-play-state: paused;
 }
+
+/* Conditional hiding for .oferta_tabs to prevent tab flicker on load */
+.oferta_tabs {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease;
+}
+
+/* Hidden state before correct tab activation (used by JS) */
+.oferta_tabs.hidden-before-init {
+  opacity: 0;
+  visibility: hidden;
+}
