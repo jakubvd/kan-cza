@@ -1,7 +1,6 @@
 // Run after Webflow finished initializing components
 window.Webflow = window.Webflow || [];
 window.Webflow.push(function () {
-  // Map URL hash (or query) -> Webflow tab name (data-w-tab)
   const HASH_TO_TAB = {
     'porada': 'Porada',
     'porada-prawna': 'Porada',
@@ -15,16 +14,10 @@ window.Webflow.push(function () {
   const q = new URLSearchParams(window.location.search);
   const tabParamRaw = (q.get('tab') || '').trim().toLowerCase();
 
-  const key = (hashRaw || tabParamRaw || '');
+  const key = hashRaw || tabParamRaw || '';
   const tabName = HASH_TO_TAB[key];
   const wrapper = document.querySelector('.oferta_tabs');
   const defaultTab = (wrapper && wrapper.getAttribute('data-current')) || 'Porada';
-
-  // Hide tabs initially to avoid flicker only if target tab ≠ default tab
-  if (tabName && wrapper && tabName !== defaultTab) {
-    wrapper.classList.add('hidden-before-init');
-    window.scrollTo(0, 0);
-  }
 
   // Helper: activate a tab by its data-w-tab value
   function activateTabByName(tabName) {
@@ -32,40 +25,36 @@ window.Webflow.push(function () {
     const btn = wrapper.querySelector('.w-tab-menu [data-w-tab="' + tabName + '"]');
     if (!btn) return;
 
-    setTimeout(() => {
-      btn.click();
+    // Activate tab
+    btn.click();
 
-      // Reveal section smoothly after activation
-      wrapper.classList.remove('hidden-before-init');
-      document.documentElement.classList.remove('targeting-tab'); // Remove guard class
+    // Scroll to oferta_tabs position
+    const ofertaSection = document.querySelector('.oferta_tabs');
+    const offsetRem = 7; // top offset in rem
+    const offset = ofertaSection
+      ? ofertaSection.getBoundingClientRect().top + window.scrollY - (offsetRem * 16)
+      : 0;
 
-      // === Scroll to oferta_tabs after tab activation ===
-      const ofertaSection = document.querySelector('.oferta_tabs');
-      const offsetRem = 7; // top offset in rem
-      const offset = ofertaSection
-        ? ofertaSection.getBoundingClientRect().top + window.scrollY - (offsetRem * 16)
-        : 0;
+    window.scrollTo({
+      top: offset,
+      behavior: 'auto'
+    });
 
-      // Instantly set position (no scroll animation)
-      if (ofertaSection) {
-        window.scrollTo({
-          top: offset,
-          behavior: 'auto'
-        });
-      }
-
-      // === Unlock scroll after position is set ===
-      document.documentElement.classList.remove('preload-lock');
-      document.body.classList.remove('page-hidden');
-    }, 60);
+    // Finally reveal page
+    document.querySelector('.page-wrapper').classList.add('loaded');
   }
 
-  // Activate correct tab if URL has hash
+  // Activate tab or just show page if no hash
   if (tabName) {
-    activateTabByName(tabName);
+    setTimeout(() => {
+      activateTabByName(tabName);
+    }, 50);
+  } else {
+    // No tab specified – just show page
+    document.querySelector('.page-wrapper').classList.add('loaded');
   }
 
-  // Update hash dynamically when user clicks a tab manually
+  // Update hash when switching tabs manually
   if (wrapper) {
     wrapper.querySelectorAll('.w-tab-menu [data-w-tab]').forEach(btn => {
       btn.addEventListener('click', () => {
