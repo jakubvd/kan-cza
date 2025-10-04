@@ -18,10 +18,12 @@ window.Webflow.push(function () {
   const key = (hashRaw || tabParamRaw || '');
   const tabName = HASH_TO_TAB[key];
   const wrapper = document.querySelector('.oferta_tabs');
+  const defaultTab = (wrapper && wrapper.getAttribute('data-current')) || 'Porada';
 
-  // 🔹 If URL has hash, hide tabs initially to avoid flicker
-  if (tabName && wrapper) {
+  // Hide tabs initially to avoid flicker only if target tab ≠ default tab
+  if (tabName && wrapper && tabName !== defaultTab) {
     wrapper.classList.add('hidden-before-init');
+    window.scrollTo(0, 0);
   }
 
   // Helper: activate a tab by its data-w-tab value
@@ -36,8 +38,9 @@ window.Webflow.push(function () {
 
       // Reveal section smoothly after activation
       wrapper.classList.remove('hidden-before-init');
+      document.documentElement.classList.remove('targeting-tab'); // Remove guard class
       wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    }, 60);
   }
 
   // Activate correct tab if URL has hash
