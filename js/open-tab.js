@@ -41,7 +41,7 @@ window.Webflow.push(function () {
     });
 
     // Finally reveal page
-    document.querySelector('.page-wrapper').classList.add('loaded');
+    document.querySelector('.loading-wrap')?.classList.add('loaded');
   }
 
   // Activate tab or just show page if no hash
@@ -51,7 +51,7 @@ window.Webflow.push(function () {
     }, 50);
   } else {
     // No tab specified – just show page
-    document.querySelector('.page-wrapper').classList.add('loaded');
+    document.querySelector('.loading-wrap')?.classList.add('loaded');
   }
 
   // Update hash when switching tabs manually
