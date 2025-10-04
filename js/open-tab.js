@@ -56,6 +56,7 @@ window.Webflow.push(function () {
 
       // === Unlock scroll after position is set ===
       document.documentElement.classList.remove('preload-lock');
+      document.body.classList.remove('page-hidden');
     }, 60);
   }
 
