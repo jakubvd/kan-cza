@@ -46,13 +46,16 @@ window.Webflow.push(function () {
         ? ofertaSection.getBoundingClientRect().top + window.scrollY - (offsetRem * 16)
         : 0;
 
-      // Disable scroll animation for better UX by jumping directly to the section
+      // Instantly set position (no scroll animation)
       if (ofertaSection) {
         window.scrollTo({
           top: offset,
           behavior: 'auto'
         });
       }
+
+      // === Unlock scroll after position is set ===
+      document.documentElement.classList.remove('preload-lock');
     }, 60);
   }
 
