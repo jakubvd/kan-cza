@@ -32,12 +32,21 @@ window.Webflow.push(function () {
     const btn = wrapper.querySelector('.w-tab-menu [data-w-tab="' + tabName + '"]');
     if (!btn) return;
 
+    // Record current scroll position before tab switch
+    const currentScroll = window.scrollY;
+
     setTimeout(() => {
       btn.click();
 
       // Reveal section smoothly after activation
       wrapper.classList.remove('hidden-before-init');
       document.documentElement.classList.remove('targeting-tab'); // Remove guard class
+
+      // Maintain consistent position after tab activation
+      window.scrollTo({
+        top: currentScroll,
+        behavior: 'instant'
+      });
 
       // Scroll only if user has already interacted (not on first page load)
       if (window._tabActivatedOnce) {
