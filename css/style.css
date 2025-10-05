@@ -63,7 +63,6 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
               0px 3px 8px rgba(0, 0, 0, 0.15);
 }
 
-
 /* Focus – keyboard accessibility */
   .button.is-secondary:focus {
     outline: none; /* reset default focus */
@@ -210,8 +209,13 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   to   { transform: translateX(-50%); } /* half width for duplicated track */
 }
 
-
 /* Fallback: if JS is disabled, allow hover to pause marquee */
 body:not(.js-enabled) .home-testimonial_component:hover {
   animation-play-state: paused;
+}
+
+/* set contact form checkbox styles */
+.form_checkbox-icon-main.w--redirected-checked {
+  background-color: var(--main--green-medium) !important;
+  border-color: white !important;
 }
