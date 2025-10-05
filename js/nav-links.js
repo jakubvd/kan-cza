@@ -1,38 +1,19 @@
 window.onload = () => {
-  // Instantly scroll to top before rendering
+  // Always scroll to top on page load
   window.scrollTo({ top: 0, behavior: "instant" });
 
-  // Get ?tab= parameter from the URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const tabParam = urlParams.get("tab");
-
-  // Define mapping between query values and Webflow tab names
-  const tabMap = {
-    "porada-prawna": "Porada",
-    "opinia-prawna": "Opinia",
-    "pomoc-prawna": "Pomoc"
-  };
-
-  // Wait briefly to ensure Webflow initialized tabs
+  // Wait briefly to ensure Webflow tab structure is initialized
   setTimeout(() => {
-    // Default to "Porada" tab
-    let tabToOpen = "Porada";
-
-    // Use parameter if valid
-    if (tabParam && (tabParam === "opinia-prawna" || tabParam === "pomoc-prawna")) {
-      tabToOpen = tabMap[tabParam];
-    }
-
-    // Select target tab link using Webflow's .w-tab-menu and data-w-tab
-    const targetTab = document.querySelector(`.w-tab-menu [data-w-tab="${tabToOpen}"]`);
+    // Always open the first tab ("Porada")
+    const targetTab = document.querySelector('.w-tab-menu [data-w-tab="Porada"]');
 
     if (targetTab) {
-      // Remove w--current from all tab links
+      // Remove current classes from all tab links
       const allTabLinks = document.querySelectorAll('.w-tab-menu [data-w-tab]');
       allTabLinks.forEach(tab => tab.classList.remove('w--current'));
       targetTab.classList.add('w--current');
 
-      // Activate corresponding tab pane
+      // Find the related tab pane and activate it
       const ariaControls = targetTab.getAttribute('aria-controls');
       if (ariaControls) {
         const allTabPanes = document.querySelectorAll('.w-tab-pane');
@@ -43,14 +24,14 @@ window.onload = () => {
         }
       }
 
-      // Trigger tab click to ensure correct Webflow sync
+      // Trigger click to ensure Webflow recognizes the change
       targetTab.click();
     }
 
-    // Fade in after tab setup
+    // Fade in content after setup
     const loadingWrap = document.querySelector(".loading-wrap");
     if (loadingWrap) {
       loadingWrap.classList.add("loaded");
     }
-  }, 100);
+  }, 150);
 };
