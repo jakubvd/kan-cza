@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Scroll instantly to the top before any tab activation
+  window.scrollTo({ top: 0, behavior: "instant" });
+
   // Get the 'tab' query parameter from the URL (e.g., ?tab=porada-prawna)
   const urlParams = new URLSearchParams(window.location.search);
   const tabParam = urlParams.get("tab");
@@ -15,11 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const targetTab = document.querySelector(`[w-tab="${tabMap[tabParam]}"]`);
     if (targetTab) {
       targetTab.click(); // Simulate click to open the tab
-
-      // Force scroll to top after tab activation (small delay to allow rendering)
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "instant" });
-      }, 150);
     }
   }
 
