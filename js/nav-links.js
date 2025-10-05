@@ -15,16 +15,18 @@ window.onload = () => {
 
   // Wait briefly to ensure Webflow initialized tabs
   setTimeout(() => {
-    // If a valid tab parameter exists, activate it
-    if (tabParam && tabMap[tabParam]) {
-      const targetTab = document.querySelector(`[w-tab="${tabMap[tabParam]}"]`);
-      if (targetTab) {
-        targetTab.click(); // Simulate click to open the tab
-      }
-    } else {
-      // Default behavior: open the first tab ("Porada")
-      const firstTab = document.querySelector('[w-tab="Porada"]');
-      if (firstTab) firstTab.click();
+    // Always open the first tab ("Porada") if no valid tab parameter is provided
+    // Otherwise, open the tab corresponding to the parameter if it's "opinia-prawna" or "pomoc-prawna"
+    let tabToOpen = "Porada";
+    if (tabParam && (tabParam === "opinia-prawna" || tabParam === "pomoc-prawna")) {
+      tabToOpen = tabMap[tabParam];
+    }
+
+    // Select the tab element with the matching w-tab attribute
+    const targetTab = document.querySelector(`[w-tab="${tabToOpen}"]`);
+    if (targetTab) {
+      // Simulate click to open the tab without changing URL or scrolling
+      targetTab.click();
     }
 
     // After tab activation, fade in content wrapper
