@@ -15,21 +15,28 @@ window.onload = () => {
 
   // Wait briefly to ensure Webflow initialized tabs
   setTimeout(() => {
-    // Always open the first tab ("Porada") if no valid tab parameter is provided
-    // Otherwise, open the tab corresponding to the parameter if it's "opinia-prawna" or "pomoc-prawna"
+    // Default to "Porada" tab
     let tabToOpen = "Porada";
+
+    // Use parameter if valid
     if (tabParam && (tabParam === "opinia-prawna" || tabParam === "pomoc-prawna")) {
       tabToOpen = tabMap[tabParam];
     }
 
-    // Select the tab element with the matching w-tab attribute
+    // Select target tab
     const targetTab = document.querySelector(`[w-tab="${tabToOpen}"]`);
+
     if (targetTab) {
-      // Simulate click to open the tab without changing URL or scrolling
+      // Simulate Webflow "current" behavior
+      const allTabs = document.querySelectorAll('[w-tab]');
+      allTabs.forEach(tab => tab.classList.remove('w--current'));
+      targetTab.classList.add('w--current');
+
+      // Trigger tab click to ensure correct Webflow sync
       targetTab.click();
     }
 
-    // After tab activation, fade in content wrapper
+    // Fade in after tab setup
     const loadingWrap = document.querySelector(".loading-wrap");
     if (loadingWrap) {
       loadingWrap.classList.add("loaded");
