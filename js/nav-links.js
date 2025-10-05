@@ -1,20 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Find all links with the attribute data-open-default-tab="true"
-  const serviceLinks = document.querySelectorAll('[data-open-default-tab="true"]');
+  // Get the 'tab' query parameter from the URL (e.g., ?tab=porada-prawna)
+  const urlParams = new URLSearchParams(window.location.search);
+  const tabParam = urlParams.get("tab");
 
-  serviceLinks.forEach(link => {
-    link.addEventListener("click", (e) => {
-      // Get href and check if it leads to /uslugi
-      const href = link.getAttribute("href");
-      if (href && href.includes("/uslugi")) {
-        e.preventDefault(); // Prevent default navigation
+  // Define mapping between query values and tab buttons
+  const tabMap = {
+    "porada-prawna": "Porada",
+    "opinia-prawna": "Opinia",
+    "pomoc-prawna": "Pomoc"
+  };
 
-        // Build a clean URL to /uslugi with default tab hash
-        const targetUrl = "/uslugi#porada-prawna";
+  // If a valid tab parameter exists, activate the corresponding Webflow tab
+  if (tabParam && tabMap[tabParam]) {
+    const targetTab = document.querySelector(`[w-tab="${tabMap[tabParam]}"]`);
+    if (targetTab) {
+      targetTab.click(); // Simulate click to open the tab
+    }
+  }
 
-        // Redirect user normally (page loads from top)
-        window.location.assign(targetUrl);
-      }
-    });
-  });
+  // After tab activation, fade in content wrapper (if exists)
+  const loadingWrap = document.querySelector(".loading-wrap");
+  if (loadingWrap) {
+    loadingWrap.classList.add("loaded");
+  }
 });
