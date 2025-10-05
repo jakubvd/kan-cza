@@ -1,4 +1,4 @@
-// Run after Webflow finished initializing components
+// Run after Webflow finished initializing components - dziala
 window.Webflow = window.Webflow || [];
 window.Webflow.push(function () {
   const HASH_TO_TAB = {
