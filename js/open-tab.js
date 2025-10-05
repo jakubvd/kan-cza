@@ -1,6 +1,10 @@
-// Run after Webflow finished initializing components - dziala
+// open-tab.js (load only on /uslugi)
 window.Webflow = window.Webflow || [];
 window.Webflow.push(function () {
+  const wrapper = document.querySelector('.oferta_tabs');
+  const loadingWrap = document.querySelector('.loading-wrap');
+
+  // Map hash -> Webflow tab name
   const HASH_TO_TAB = {
     'porada': 'Porada',
     'porada-prawna': 'Porada',
@@ -10,60 +14,59 @@ window.Webflow.push(function () {
     'pomoc-prawna': 'Pomoc'
   };
 
-  const hashRaw = (window.location.hash || '').replace('#', '').trim().toLowerCase();
-  const q = new URLSearchParams(window.location.search);
-  const tabParamRaw = (q.get('tab') || '').trim().toLowerCase();
-
-  const key = hashRaw || tabParamRaw || '';
-  const tabName = HASH_TO_TAB[key];
-  const wrapper = document.querySelector('.oferta_tabs');
-  const defaultTab = (wrapper && wrapper.getAttribute('data-current')) || 'Porada';
-
-  // Helper: activate a tab by its data-w-tab value
-  function activateTabByName(tabName) {
+  // --- helper: aktywacja taba po nazwie Webflow (data-w-tab="...") ---
+  function activateTabByName(name) {
     if (!wrapper) return;
-    const btn = wrapper.querySelector('.w-tab-menu [data-w-tab="' + tabName + '"]');
-    if (!btn) return;
+    const link = wrapper.querySelector('.w-tab-menu [data-w-tab="' + name + '"]');
+    if (!link) return;
 
-    // Activate tab
-    btn.click();
+    // Zsynchronizuj klasy linków
+    wrapper.querySelectorAll('.w-tab-menu [data-w-tab]').forEach(a => a.classList.remove('w--current'));
+    link.classList.add('w--current');
 
-    // Scroll to oferta_tabs position
-    const ofertaSection = document.querySelector('.oferta_tabs');
-    const offsetRem = 7; // top offset in rem
-    const offset = ofertaSection
-      ? ofertaSection.getBoundingClientRect().top + window.scrollY - (offsetRem * 16)
-      : 0;
+    // Zsynchronizuj klasy paneli
+    const paneId = link.getAttribute('aria-controls');
+    if (paneId) {
+      wrapper.querySelectorAll('.w-tab-pane').forEach(p => p.classList.remove('w--tab-active'));
+      const pane = document.getElementById(paneId);
+      if (pane) pane.classList.add('w--tab-active');
+    }
 
-    window.scrollTo({
-      top: offset,
-      behavior: 'auto'
-    });
-
-    // Finally reveal page
-    document.querySelector('.loading-wrap')?.classList.add('loaded');
+    // Kliknij, żeby Webflow wewnętrznie też „wiedział”
+    link.click();
   }
 
-  // Activate tab or just show page if no hash
+  // --- 1) Przyszliśmy z „Usługi” (nav/footer)? ---
+  const fromServiceButton = sessionStorage.getItem("fromServiceButton") === "true";
+  sessionStorage.removeItem("fromServiceButton"); // ważne: FLAGA MA BYĆ JEDNORAZOWA
+
+  if (fromServiceButton) {
+    // Otwórz PORADĘ, ale NIE przewijaj do tabs; strona startuje od góry
+    activateTabByName('Porada');
+
+    // pokaż content (fade-in)
+    if (loadingWrap) loadingWrap.classList.add('loaded');
+    return;
+  }
+
+  // --- 2) Przyszliśmy z homepage z hashem? (np. #opinia-prawna) ---
+  const hashKey = (window.location.hash || '').replace('#', '').trim().toLowerCase();
+  const tabName = HASH_TO_TAB[hashKey];
+
   if (tabName) {
-    setTimeout(() => {
-      activateTabByName(tabName);
-    }, 50);
-  } else {
-    // No tab specified – just show page
-    document.querySelector('.loading-wrap')?.classList.add('loaded');
+    activateTabByName(tabName);
+
+    // Ustaw widok na sekcję tabs (jump, bez animacji) – to jest flow „homepage -> sekcja”
+    const oferta = document.querySelector('.oferta_tabs');
+    if (oferta) {
+      const offset = oferta.getBoundingClientRect().top + window.scrollY - (7 * 16); // 7rem
+      window.scrollTo({ top: offset, behavior: 'auto' });
+    }
+
+    if (loadingWrap) loadingWrap.classList.add('loaded');
+    return;
   }
 
-  // Update hash when switching tabs manually
-  if (wrapper) {
-    wrapper.querySelectorAll('.w-tab-menu [data-w-tab]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const name = btn.getAttribute('data-w-tab');
-        const pane = wrapper.querySelector('.w-tab-content [data-w-tab="' + name + '"]');
-        if (pane && pane.id) {
-          history.replaceState(null, '', '#' + pane.id);
-        }
-      });
-    });
-  }
+  // --- 3) Inne przypadki (direct load /uslugi bez hash/flag) ---
+  if (loadingWrap) loadingWrap.classList.add('loaded');
 });
