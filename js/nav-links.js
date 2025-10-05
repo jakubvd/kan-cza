@@ -23,14 +23,25 @@ window.onload = () => {
       tabToOpen = tabMap[tabParam];
     }
 
-    // Select target tab
-    const targetTab = document.querySelector(`[w-tab="${tabToOpen}"]`);
+    // Select target tab link using Webflow's .w-tab-menu and data-w-tab
+    const targetTab = document.querySelector(`.w-tab-menu [data-w-tab="${tabToOpen}"]`);
 
     if (targetTab) {
-      // Simulate Webflow "current" behavior
-      const allTabs = document.querySelectorAll('[w-tab]');
-      allTabs.forEach(tab => tab.classList.remove('w--current'));
+      // Remove w--current from all tab links
+      const allTabLinks = document.querySelectorAll('.w-tab-menu [data-w-tab]');
+      allTabLinks.forEach(tab => tab.classList.remove('w--current'));
       targetTab.classList.add('w--current');
+
+      // Activate corresponding tab pane
+      const ariaControls = targetTab.getAttribute('aria-controls');
+      if (ariaControls) {
+        const allTabPanes = document.querySelectorAll('.w-tab-pane');
+        allTabPanes.forEach(pane => pane.classList.remove('w--tab-active'));
+        const activePane = document.getElementById(ariaControls);
+        if (activePane) {
+          activePane.classList.add('w--tab-active');
+        }
+      }
 
       // Trigger tab click to ensure correct Webflow sync
       targetTab.click();
