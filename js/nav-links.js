@@ -15,6 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const targetTab = document.querySelector(`[w-tab="${tabMap[tabParam]}"]`);
     if (targetTab) {
       targetTab.click(); // Simulate click to open the tab
+
+      // Force scroll to top after tab activation (small delay to allow rendering)
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }, 150);
     }
   }
 
