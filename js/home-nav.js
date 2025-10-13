@@ -27,15 +27,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Animate CSS margin-top from current value (e.g., -100px) to 0 when
   // the bottom of the hero hits the top of the viewport. Reverse on scroll up.
-  gsap.to(navbar, {
-    marginTop: 0,            // bring navbar into view
-    duration: 1,
-    ease: "expo.out",        // premium/smooth easing
-    scrollTrigger: {
-      trigger: hero,
-      start: "bottom top",  // when hero's bottom touches viewport top
-      toggleActions: "play none none reverse",
-      // markers: true,       // <- uncomment for visual debugging
+  ScrollTrigger.create({
+    trigger: hero,
+    start: "bottom top",
+    onEnter: () => {
+      gsap.to(navbar, {
+        marginTop: 0,
+        duration: 1.4,  // slightly slower scroll-in
+        ease: "expo.out"
+      });
+    },
+    onLeaveBack: () => {
+      gsap.to(navbar, {
+        marginTop: -100,
+        duration: 0.7,  // faster reverse
+        ease: "expo.in"
+      });
     }
+    // markers: true,
   });
 });
