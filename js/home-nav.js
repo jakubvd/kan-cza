@@ -1,5 +1,3 @@
-
-
 // ============================================================
 // HOME NAVBAR SCROLL ANIMATION (Webflow)
 // ============================================================
@@ -34,14 +32,16 @@ document.addEventListener("DOMContentLoaded", function () {
       gsap.to(navbar, {
         marginTop: 0,
         duration: 1.4,  // slightly slower scroll-in
-        ease: "expo.out"
+        ease: "expo.out",
+        overwrite: "auto"
       });
     },
     onLeaveBack: () => {
       gsap.to(navbar, {
         marginTop: -100,
-        duration: 0.7,  // faster reverse
-        ease: "expo.in"
+        duration: 0.4,  // faster reverse
+        ease: "sine.in",
+        overwrite: "auto"
       });
     }
     // markers: true,
