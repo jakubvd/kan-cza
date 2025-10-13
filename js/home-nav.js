@@ -1,49 +1,41 @@
 
 
 // ============================================================
-// HOME NAVBAR SCROLL ANIMATION
+// HOME NAVBAR SCROLL ANIMATION (Webflow)
 // ============================================================
+// Requirements:
+// - GSAP core + ScrollTrigger loaded in <head> (with `defer`)
+// - Navbar wrapper ID:    #navbar-wrap-home (CSS has margin-top: -100px on load)
+// - Hero section ID:      #hero-sec
+// - We DO NOT set initial position in JS; CSS controls the hidden state.
+// - Mirror behavior: play on scroll down, reverse on scroll up.
 
 // Wait until DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
+  // Fail fast if GSAP/ScrollTrigger are unavailable
+  if (typeof gsap === "undefined") return;
+  if (typeof ScrollTrigger === "undefined") return;
 
-  // Run only on the homepage (root path)
-  if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
+  // Register ScrollTrigger (safe even if called multiple times)
+  gsap.registerPlugin(ScrollTrigger);
 
-    // Register the ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
+  // Cache elements
+  const hero = document.getElementById("hero-sec");
+  const navbar = document.getElementById("navbar-wrap-home");
 
-    // Select both hero section and navbar elements by ID
-    const hero = document.getElementById("hero-sec");
-    const navbar = document.getElementById("navbar-wrap-home");
+  if (!hero || !navbar) return; // nothing to do without required elements
 
-    // Safety check: prevent errors if elements are not found
-    if (!hero || !navbar) return;
-
-    // Set the initial position of the navbar (hidden above the screen)
-    gsap.set(navbar, { y: -100 });
-
-    // Create the ScrollTrigger animation
-    ScrollTrigger.create({
-      trigger: hero,             // Trigger element is the hero section
-      start: "bottom top",       // When bottom of hero hits the top of viewport
-      toggleActions: "play none none reverse", // Play on scroll down, reverse on scroll up
-      onEnter: () => {
-        // Animate navbar sliding down into view
-        gsap.to(navbar, {
-          y: 0,
-          duration: 1,
-          ease: "expo.out"
-        });
-      },
-      onLeaveBack: () => {
-        // Animate navbar sliding back up (mirror animation)
-        gsap.to(navbar, {
-          y: -100,
-          duration: 1,
-          ease: "expo.in"
-        });
-      }
-    });
-  }
+  // Animate CSS margin-top from current value (e.g., -100px) to 0 when
+  // the bottom of the hero hits the top of the viewport. Reverse on scroll up.
+  gsap.to(navbar, {
+    marginTop: 0,            // bring navbar into view
+    duration: 1,
+    ease: "expo.out",        // premium/smooth easing
+    scrollTrigger: {
+      trigger: hero,
+      start: "bottom top",  // when hero's bottom touches viewport top
+      toggleActions: "play none none reverse",
+      // markers: true,       // <- uncomment for visual debugging
+    }
+  });
 });
