@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // the bottom of the hero hits the top of the viewport. Reverse on scroll up.
   ScrollTrigger.create({
     trigger: hero,
-    start: "bottom top",
+    start: "90% top",
     onEnter: () => {
       gsap.to(navbar, {
         marginTop: 0,
