@@ -304,3 +304,64 @@ body:not(.js-enabled) .home-testimonial_component:hover {
   background-color: var(--main--green-medium) !important;
   border-color: white !important;
 }
+
+
+/* ==========================
+   Webflow Modal Fix Section
+   ========================== */
+/* Force Webflow modal overlays to work with native <dialog> */
+
+/* Override Webflow's .w-modal, .w-lightbox-backdrop, etc. when used with <dialog> */
+dialog[open] {
+  display: flex !important; /* override Webflow's display: none or block */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000 !important; /* ensure above overlays */
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hide modal when not open */
+dialog:not([open]) {
+  display: none !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Webflow overlays that may conflict with dialog */
+.w-lightbox-backdrop,
+.w-modal-overlay,
+.w-lightbox-overlay {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Ensure dialog stacking context */
+dialog[open] {
+  z-index: 2000 !important;
+}
+dialog::backdrop {
+  z-index: 1999 !important;
+  animation: modal-backdrop-fade-in 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+}
+
+/* Animation for modal content (reveal up) */
+dialog[open] .modal-content {
+  animation: modal-content-reveal-up 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+}
+
+/* Animate backdrop for smooth fade-in */
+@keyframes modal-backdrop-fade-in {
+  from { background-color: rgba(0,0,0,0); }
+  to   { background-color: rgba(0,0,0,0.4); }
+}
+
+/* Animate modal content for smooth reveal-up */
+@keyframes modal-content-reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
