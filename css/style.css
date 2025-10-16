@@ -43,6 +43,87 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   opacity: 1;
 }
 
+/* Modal dialog base styles */
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  font-family: var(--font-base);
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Backdrop fade-in */
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+  animation: modal-backdrop-fade-in 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+}
+
+/* Modal content styling */
+.modal-content {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: modal-content-reveal-up 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+  will-change: transform, opacity;
+  position: relative;
+}
+
+/* Modal close button */
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #444;
+  transition: color 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+.modal-close:hover,
+.modal-close:focus {
+  color: #000;
+  outline: none;
+}
+
+/* Keyframes for backdrop fade-in */
+@keyframes modal-backdrop-fade-in {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Keyframes for modal content reveal up */
+@keyframes modal-content-reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Button secondary styles */
 
 /* Static state look (premium base appearance) */
