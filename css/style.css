@@ -83,20 +83,7 @@ dialog::backdrop {
 
 /* Modal close button */
 .modal-close {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  background: transparent;
-  border: none;
-  font-size: 1.25rem;
-  cursor: pointer;
-  color: #444;
-  transition: color 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-}
-.modal-close:hover,
-.modal-close:focus {
-  color: #000;
-  outline: none;
+  /* Modal close button styling removed as per instructions */
 }
 
 /* Keyframes for backdrop fade-in */
