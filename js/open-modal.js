@@ -19,9 +19,16 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.style.alignItems = "center";
       modal.style.justifyContent = "center";
       modal.style.flexDirection = "column";
-
-      // optional: block scroll behind
       document.body.style.overflow = "hidden";
+
+      // ✅ Auto focus first input in form after open
+      const firstInput = modal.querySelector("input, textarea, select");
+      if (firstInput) {
+        setTimeout(() => firstInput.focus(), 150); // delay for Webflow render
+      }
+
+      // ✅ Enable focus trap (keep tab inside modal)
+      trapFocus(modal);
     });
   });
 
@@ -53,9 +60,38 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function closeModal(modal) {
-    // remove inline styles and restore scroll
     modal.style.display = "none";
     modal.removeAttribute("style");
+    modal.classList.remove("is-centered");
     document.body.style.overflow = "";
+  }
+
+  // ✅ Focus trap logic (keeps tabbing inside modal)
+  function trapFocus(modal) {
+    const focusable = modal.querySelectorAll(
+      'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    modal.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab") return;
+
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        // Tab
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
   }
 });
