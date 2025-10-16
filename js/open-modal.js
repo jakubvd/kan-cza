@@ -1,50 +1,61 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const openButtons = document.querySelectorAll("[data-open]");
-  const dialogs = document.querySelectorAll("dialog");
+// === Modal logic & animations ===
+// Handles native <dialog> elements with smooth transitions
 
-  if (!openButtons.length || !dialogs.length) {
-    return;
-  }
+document.addEventListener('DOMContentLoaded', () => {
+  const openButtons = document.querySelectorAll('[data-open]');
+  const dialogs = document.querySelectorAll('dialog');
 
-  // Function to open dialog
-  function openDialog(dialog) {
-    if (typeof dialog.showModal === "function") {
-      dialog.showModal();
-    }
-  }
-
-  // Function to close dialog
-  function closeDialog(dialog) {
-    if (typeof dialog.close === "function") {
-      dialog.close();
-    }
-  }
-
-  // Opening dialogs
+  // Open modal
   openButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const targetId = button.getAttribute("data-open");
-      const targetDialog = document.getElementById(targetId);
-      if (targetDialog && targetDialog.tagName.toLowerCase() === "dialog") {
-        openDialog(targetDialog);
-      }
+    const targetId = button.getAttribute('data-open');
+    const dialog = document.getElementById(targetId);
+
+    if (!dialog) return;
+
+    button.addEventListener('click', () => {
+      // showModal handles focus and scroll lock automatically
+      dialog.showModal();
+
+      // small delay to trigger CSS transition (for Safari fixes)
+      requestAnimationFrame(() => {
+        dialog.classList.add('is-visible');
+      });
     });
   });
 
-  // Closing dialogs with close button or clicking outside
+  // Close modal (by close button, Esc, or click outside)
   dialogs.forEach(dialog => {
-    const closeBtn = dialog.querySelector(".modal-close");
+    const closeBtn = dialog.querySelector('.modal-close');
 
+    // Click on × button
     if (closeBtn) {
-      closeBtn.addEventListener("click", () => {
-        closeDialog(dialog);
+      closeBtn.addEventListener('click', () => {
+        closeModal(dialog);
       });
     }
 
-    dialog.addEventListener("click", (e) => {
-      if (e.target === dialog) {
-        closeDialog(dialog);
-      }
+    // Click on backdrop (outside content)
+    dialog.addEventListener('click', (e) => {
+      const rect = dialog.querySelector('.modal-content')?.getBoundingClientRect();
+      if (!rect) return;
+      const clickedOutside =
+        e.clientX < rect.left ||
+        e.clientX > rect.right ||
+        e.clientY < rect.top ||
+        e.clientY > rect.bottom;
+      if (clickedOutside) closeModal(dialog);
+    });
+
+    // Press Esc
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal(dialog);
     });
   });
+
+  // Helper function: smooth closing
+  function closeModal(dialog) {
+    dialog.classList.remove('is-visible');
+    // Wait for CSS transition before fully closing
+    setTimeout(() => dialog.close(), 300);
+  }
 });

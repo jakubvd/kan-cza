@@ -45,21 +45,14 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
 /* Modal dialog base styles */
 dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border: none;
   background: transparent;
   padding: 0;
   margin: 0;
-  z-index: 1000;
   box-sizing: border-box;
   font-family: var(--font-base);
   outline: none;
   display: block;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Backdrop fade-in */
@@ -311,56 +304,29 @@ body:not(.js-enabled) .home-testimonial_component:hover {
    ========================== */
 /* Force Webflow modal overlays to work with native <dialog> */
 
-/* Override Webflow's .w-modal, .w-lightbox-backdrop, etc. when used with <dialog> */
-dialog[open] {
-  display: flex !important; /* override Webflow's display: none or block */
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000 !important; /* ensure above overlays */
-  pointer-events: auto;
-  opacity: 1;
-  visibility: visible;
-}
+/* Simplified modal animation styles only */
 
-/* Hide modal when not open */
-dialog:not([open]) {
-  display: none !important;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Webflow overlays that may conflict with dialog */
-.w-lightbox-backdrop,
-.w-modal-overlay,
-.w-lightbox-overlay {
-  display: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  visibility: hidden !important;
-}
-
-/* Ensure dialog stacking context */
-dialog[open] {
-  z-index: 2000 !important;
-}
 dialog::backdrop {
-  z-index: 1999 !important;
   animation: modal-backdrop-fade-in 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
 }
 
-/* Animation for modal content (reveal up) */
 dialog[open] .modal-content {
   animation: modal-content-reveal-up 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+  opacity: 1;
+  transition: opacity 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
-/* Animate backdrop for smooth fade-in */
+dialog:not([open]) .modal-content {
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+/* Keyframes for modal backdrop and content animations */
 @keyframes modal-backdrop-fade-in {
   from { background-color: rgba(0,0,0,0); }
   to   { background-color: rgba(0,0,0,0.4); }
 }
 
-/* Animate modal content for smooth reveal-up */
 @keyframes modal-content-reveal-up {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
