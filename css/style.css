@@ -43,47 +43,31 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   opacity: 1;
 }
 
-/* Modal dialog base styles */
-dialog {
-  border: none;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: var(--font-base);
-  outline: none;
-  display: block;
-}
-
-/* Backdrop fade-in */
-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.4);
-  animation: modal-backdrop-fade-in 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
-}
-
-/* Modal content styling */
-.modal-content {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 1.5rem 2rem;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.15),
-    0 2px 6px rgba(0, 0, 0, 0.1);
-  max-width: 90vw;
-  max-height: 80vh;
-  overflow-y: auto;
-  animation: modal-content-reveal-up 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
-  will-change: transform, opacity;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 /* Modal close button */
 .modal-close {
   /* Modal close button styling removed as per instructions */
+}
+
+/* Simplified modal animation styles for both Webflow .modal-overlay.is-centered and native <dialog> */
+
+/* Backdrop fade-in */
+.modal-overlay.is-centered,
+dialog::backdrop {
+  animation: modal-backdrop-fade-in 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+}
+
+/* Modal content reveal-up and opacity transitions */
+.modal-overlay.is-centered .modal-content,
+dialog[open] .modal-content {
+  animation: modal-content-reveal-up 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+  opacity: 1;
+  transition: opacity 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.modal-overlay.is-centered:not(.is-open) .modal-content,
+dialog:not([open]) .modal-content {
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
 /* Keyframes for backdrop fade-in */
@@ -100,7 +84,7 @@ dialog::backdrop {
 @keyframes modal-content-reveal-up {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -283,38 +267,4 @@ body:not(.js-enabled) .home-testimonial_component:hover {
 .form_checkbox-icon-main.w--redirected-checked {
   background-color: var(--main--green-medium) !important;
   border-color: white !important;
-}
-
-
-/* ==========================
-   Webflow Modal Fix Section
-   ========================== */
-/* Force Webflow modal overlays to work with native <dialog> */
-
-/* Simplified modal animation styles only */
-
-dialog::backdrop {
-  animation: modal-backdrop-fade-in 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
-}
-
-dialog[open] .modal-content {
-  animation: modal-content-reveal-up 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
-  opacity: 1;
-  transition: opacity 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
-}
-
-dialog:not([open]) .modal-content {
-  opacity: 0;
-  transition: opacity 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
-}
-
-/* Keyframes for modal backdrop and content animations */
-@keyframes modal-backdrop-fade-in {
-  from { background-color: rgba(0,0,0,0); }
-  to   { background-color: rgba(0,0,0,0.4); }
-}
-
-@keyframes modal-content-reveal-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
 }

@@ -1,61 +1,61 @@
-// === Modal logic & animations ===
-// Handles native <dialog> elements with smooth transitions
+// === Modal logic for Webflow modals ===
+// Only controls state and display — NO layout or animation logic
 
-document.addEventListener('DOMContentLoaded', () => {
-  const openButtons = document.querySelectorAll('[data-open]');
-  const dialogs = document.querySelectorAll('dialog');
+document.addEventListener("DOMContentLoaded", () => {
+  const openButtons = document.querySelectorAll("[data-open]");
+  const modals = document.querySelectorAll(".modal-overlay");
 
   // Open modal
-  openButtons.forEach(button => {
-    const targetId = button.getAttribute('data-open');
-    const dialog = document.getElementById(targetId);
+  openButtons.forEach((button) => {
+    const targetId = button.getAttribute("data-open");
+    const modal = document.getElementById(targetId);
 
-    if (!dialog) return;
+    if (!modal) return;
 
-    button.addEventListener('click', () => {
-      // showModal handles focus and scroll lock automatically
-      dialog.showModal();
+    button.addEventListener("click", () => {
+      // show modal - only apply logic, no styling overrides
+      modal.classList.add("is-centered");
+      modal.style.display = "flex";
+      modal.style.alignItems = "center";
+      modal.style.justifyContent = "center";
+      modal.style.flexDirection = "column";
 
-      // small delay to trigger CSS transition (for Safari fixes)
-      requestAnimationFrame(() => {
-        dialog.classList.add('is-visible');
-      });
+      // optional: block scroll behind
+      document.body.style.overflow = "hidden";
     });
   });
 
-  // Close modal (by close button, Esc, or click outside)
-  dialogs.forEach(dialog => {
-    const closeBtn = dialog.querySelector('.modal-close');
+  // Close modal (by close button or click outside)
+  modals.forEach((modal) => {
+    const closeBtn = modal.querySelector(".modal-close");
 
-    // Click on × button
     if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        closeModal(dialog);
-      });
+      closeBtn.addEventListener("click", () => closeModal(modal));
     }
 
-    // Click on backdrop (outside content)
-    dialog.addEventListener('click', (e) => {
-      const rect = dialog.querySelector('.modal-content')?.getBoundingClientRect();
-      if (!rect) return;
-      const clickedOutside =
+    modal.addEventListener("click", (e) => {
+      const content = modal.querySelector(".modal-content");
+      if (!content) return;
+
+      const rect = content.getBoundingClientRect();
+      const outside =
         e.clientX < rect.left ||
         e.clientX > rect.right ||
         e.clientY < rect.top ||
         e.clientY > rect.bottom;
-      if (clickedOutside) closeModal(dialog);
+
+      if (outside) closeModal(modal);
     });
 
-    // Press Esc
-    dialog.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal(dialog);
+    modal.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal(modal);
     });
   });
 
-  // Helper function: smooth closing
-  function closeModal(dialog) {
-    dialog.classList.remove('is-visible');
-    // Wait for CSS transition before fully closing
-    setTimeout(() => dialog.close(), 300);
+  function closeModal(modal) {
+    // remove inline styles and restore scroll
+    modal.style.display = "none";
+    modal.removeAttribute("style");
+    document.body.style.overflow = "";
   }
 });
