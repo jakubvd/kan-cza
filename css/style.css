@@ -45,15 +45,14 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
 
 /* Minimal modal animation: reveal-up effect only */
-.modal-overlay.is-centered .modal-content {
-  opacity: 1;
-  transform: translateY(0);
+.modal-content {
+  opacity: 0;
+  transform: translateY(24px);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
-
-.modal-overlay:not(.is-centered) .modal-content {
-  opacity: 0;
-  transform: translateY(20px);
+.modal-content.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Button secondary styles */

@@ -21,6 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.style.flexDirection = "column";
       document.body.style.overflow = "hidden";
 
+      // Add reveal-up animation trigger
+      const content = modal.querySelector(".modal-content");
+      if (content) {
+        requestAnimationFrame(() => {
+          content.classList.add("is-visible");
+        });
+      }
+
       // ✅ Auto focus first input in form after open
       const firstInput = modal.querySelector("input, textarea, select");
       if (firstInput) {
@@ -60,6 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function closeModal(modal) {
+    const content = modal.querySelector(".modal-content");
+    if (content) {
+      content.classList.remove("is-visible");
+    }
     modal.style.display = "none";
     modal.removeAttribute("style");
     modal.classList.remove("is-centered");
