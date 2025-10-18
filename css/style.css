@@ -5,6 +5,14 @@
   -o-font-smoothing: antialiased;
 }
 
+/* Remove tap highlight color for better UX on touch devices */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -moz-tap-highlight-color: transparent;
+  -ms-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
 /* 3) @font-face declarations — weight range = variable */
 @font-face {
   font-family: 'Inter';
