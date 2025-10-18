@@ -236,7 +236,7 @@ body:not(.js-enabled) .home-testimonial_component:hover {
 .modal-overlay {
   opacity: 0;
   backdrop-filter: blur(0px);
-  transition: opacity 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95), backdrop-filter 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  transition: opacity 0.1s cubic-bezier(0.445, 0.05, 0.55, 0.95), backdrop-filter 0.1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
   overflow-y: hidden;
 }
 
@@ -251,7 +251,7 @@ body:not(.js-enabled) .home-testimonial_component:hover {
 .modal-content {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.35s 0.15s cubic-bezier(0.445, 0.05, 0.55, 0.95), transform 0.35s 0.15s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  transition: opacity 0.25s 0.15s cubic-bezier(0.445, 0.05, 0.55, 0.95), transform 0.25s 0.15s cubic-bezier(0.445, 0.05, 0.55, 0.95);
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
