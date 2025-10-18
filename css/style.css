@@ -231,3 +231,67 @@ body:not(.js-enabled) .home-testimonial_component:hover {
   background-color: var(--main--green-medium) !important;
   border-color: white !important;
 }
+
+/* === Modal Overlay Fade + Blur Animation and Scroll Handling === */
+.modal-overlay {
+  opacity: 0;
+  backdrop-filter: blur(0px);
+  transition: opacity 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95), backdrop-filter 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  overflow-y: hidden;
+}
+
+.modal-overlay.is-centered {
+  opacity: 1;
+  backdrop-filter: blur(8px);
+  overflow-y: auto; /* allow scrolling inside modal overlay if content exceeds viewport */
+  overscroll-behavior: contain;
+}
+
+/* === Modal Content Reveal-Up Animation with Delay === */
+.modal-content {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.4s 0.25s cubic-bezier(0.445, 0.05, 0.55, 0.95), transform 0.4s 0.25s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
+.modal-content.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Premium Scrollbar Styling === */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* === Subtle visual hint for scrollability === */
+.modal-content::before,
+.modal-content::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  right: 0;
+  height: 12px;
+  pointer-events: none;
+  z-index: 2;
+}
+.modal-content::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.08), transparent);
+}
+.modal-content::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.08), transparent);
+}
