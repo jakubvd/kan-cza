@@ -18,15 +18,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const targetTab = document.querySelector(`.w-tab-menu [data-w-tab="${tabName}"]`);
     if (!targetTab) return;
 
-    // Remove active classes from all tab links and panes
-    document.querySelectorAll('.w-tab-menu [data-w-tab]').forEach(tab => tab.classList.remove('w--current'));
-    document.querySelectorAll('.w-tab-pane').forEach(pane => pane.classList.remove('w--tab-active'));
+    // Scope all operations to the tabs component that contains the target tab
+    const tabsWrapper = targetTab.closest('.w-tabs') || document;
+
+    // Remove active classes from all tab links and panes within the same tabs component
+    tabsWrapper.querySelectorAll('.w-tab-menu [data-w-tab]').forEach(tab => tab.classList.remove('w--current'));
+    tabsWrapper.querySelectorAll('.w-tab-pane').forEach(pane => pane.classList.remove('w--tab-active'));
 
     // Add active state to target tab
     targetTab.classList.add('w--current');
     const ariaControls = targetTab.getAttribute('aria-controls');
     if (ariaControls) {
-      const activePane = document.getElementById(ariaControls);
+      const activePane = tabsWrapper.querySelector(`#${ariaControls}`) || document.getElementById(ariaControls);
       if (activePane) activePane.classList.add('w--tab-active');
     }
 
