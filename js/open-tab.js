@@ -62,34 +62,32 @@ document.addEventListener("DOMContentLoaded", function () {
   }, 100);
 });
 
-// --- Beauty Tab Activation Fix (separate DOMContentLoaded) ---
-document.addEventListener("DOMContentLoaded", function () {
-  // 1. Select the Beauty tab link and pane for "Owner"
+// --- Beauty Tab Activation Fix (using Webflow.push) ---
+window.Webflow = window.Webflow || [];
+window.Webflow.push(function () {
+  // 1. Select the Owner tab link and corresponding pane in the Beauty tabs
   const beautyTab = document.querySelector('.oferta-beauty_tab-link[data-w-tab="Owner"]');
-  const beautyPane = document.querySelector('.w-tab-pane[data-w-tab="Owner"]');
+  const beautyPane = document.querySelector('.oferta-beauty_tabs-content .w-tab-pane[data-w-tab="Owner"]');
 
-  // 2. Only proceed if the tab exists and is not already active
-  if (beautyTab && !beautyTab.classList.contains('w--current')) {
-    // 3. Remove active classes from all related tab links and panes in the Beauty tabs menu
-    document.querySelectorAll('.oferta-beauty_tabs-menu .oferta-beauty_tab-link').forEach(tab => {
+  // 2. Proceed only if both elements exist and the tab is not already active
+  if (beautyTab && beautyPane && !beautyTab.classList.contains('w--current')) {
+    // 3. Remove 'w--current' from all Beauty tab links
+    document.querySelectorAll('.oferta-beauty_tab-link').forEach(tab => {
       tab.classList.remove('w--current');
     });
+
+    // 4. Remove 'w--tab-active' from all Beauty tab panes
     document.querySelectorAll('.oferta-beauty_tabs-content .w-tab-pane').forEach(pane => {
       pane.classList.remove('w--tab-active');
     });
 
-    // 4. Add active classes to the selected tab and pane
+    // 5. Add 'w--current' to the Owner tab link
     beautyTab.classList.add('w--current');
-    if (beautyPane) {
-      beautyPane.classList.add('w--tab-active');
-    }
 
-    // 5. Call Webflow tabs redraw if available
-    if (window.Webflow && typeof window.Webflow.require === 'function') {
-      var tabs = window.Webflow.require('tabs');
-      if (tabs && typeof tabs.redraw === 'function') {
-        tabs.redraw();
-      }
-    }
+    // 6. Add 'w--tab-active' to the Owner tab pane
+    beautyPane.classList.add('w--tab-active');
+
+    // 7. Trigger a click on the Owner tab link to sync Webflow's internal tab state properly
+    beautyTab.click();
   }
 });
