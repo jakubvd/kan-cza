@@ -1,14 +1,14 @@
 // nav-links.js
 document.addEventListener("DOMContentLoaded", () => {
-  // ONLY these links (navbar/footer) mają wywołać Poradę po wejściu na /uslugi
+  // Select all links that should open the services page with default tab
   const serviceLinks = document.querySelectorAll('[data-open-default-tab="true"]');
 
   serviceLinks.forEach(link => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
-      // Flaga dla /uslugi, że przyszliśmy z „Usługi” (nav/footer)
+      // Set a flag in sessionStorage to indicate the default tab should be opened
       sessionStorage.setItem("fromServiceButton", "true");
-      // Czysty URL (bez hash/paramów) — strona ma zacząć od góry
+      // Redirect to the services page
       window.location.href = "/uslugi";
     });
   });

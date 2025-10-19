@@ -29,13 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // ✅ Auto focus first input in form after open
+      // Auto focus first input in form after open
       const firstInput = modal.querySelector("input, textarea, select");
       if (firstInput) {
         setTimeout(() => firstInput.focus(), 150); // delay for Webflow render
       }
 
-      // ✅ Enable focus trap (keep tab inside modal)
+      // Enable focus trap (keep tab inside modal)
       trapFocus(modal);
     });
   });
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.style.overflow = "";
   }
 
-  // ✅ Focus trap logic (keeps tabbing inside modal)
+  // Focus trap logic (keeps tabbing inside modal)
   function trapFocus(modal) {
     const focusable = modal.querySelectorAll(
       'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
