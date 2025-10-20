@@ -333,3 +333,18 @@ select:focus-visible,
   outline: 2px solid #ffd700 !important; /* force visible outline on keyboard nav */
   outline-offset: 2px;
 }
+
+
+/* ===== Checkbox keyboard focus fix for Webflow custom checkboxes ===== */
+
+/* Remove default outline on hidden input */
+.w-checkbox-input:focus {
+  outline: none !important;
+}
+
+/* When keyboard focus is on the hidden input inside a .w-checkbox,
+   style its visible fake div (the custom checkbox icon) */
+.w-checkbox:focus-within .w-checkbox-input.w-checkbox-input--inputType-custom.form_checkbox-icon-main {
+  outline: 2px solid #ffd700 !important; /* yellow focus border */
+  outline-offset: 2px;
+}
