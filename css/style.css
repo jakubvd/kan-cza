@@ -323,7 +323,7 @@ select:focus,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
-.form_checkbox-icon-main:focus-visible {
+.w-checkbox-input.w-checkbox-input--inputType-custom.form_checkbox-icon-main:focus-visible {
   outline: 2px solid #ffd700 !important; /* force visible outline on keyboard nav */
   outline-offset: 0;
 }
