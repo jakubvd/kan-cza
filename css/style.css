@@ -303,3 +303,31 @@ body:not(.js-enabled) .home-testimonial_component:hover {
   bottom: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.08), transparent);
 }
+
+
+/* =========================================================
+   CONTACT FORM ACCESSIBILITY + MODAL BUTTON STYLES
+   ========================================================= */
+
+/* Reset browser outlines (mouse click and touch) */
+input:focus,
+textarea:focus,
+select:focus,
+.modal-close:focus {
+  outline: none !important; /* remove mouse/touch outline */
+  box-shadow: none !important;
+}
+
+/* Show focus only for keyboard navigation (Tab / Shift+Tab) */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #f2c94c; /* Yellow brand color */
+  outline-offset: 0;
+}
+
+/* Keyboard-only focus state for modal close control */
+.modal-close:focus-visible {
+  outline: 2px solid #f2c94c; /* yellow focus indicator */
+  outline-offset: 2px;
+}
