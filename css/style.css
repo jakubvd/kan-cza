@@ -117,8 +117,8 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   box-shadow: 
     0px 2px 6px rgba(0, 0, 0, 0.12),
     0px 1px 3px rgba(0, 0, 0, 0.06),
-    0px 0px 6px rgba(255, 215, 0, 0.18),
-    0px 4px 8px rgba(255, 215, 0, 0.18); /* softer golden bottom shadow */
+    0px 0px 6px rgba(104, 89, 1, 0.18),
+    0px 4px 8px rgba(111, 94, 1, 0.18); /* softer golden bottom shadow */
   position: relative; /* needed for shimmer */
   overflow: hidden;   /* hide overflow of shimmer line */
   will-change: filter, box-shadow;
@@ -313,7 +313,8 @@ body:not(.js-enabled) .home-testimonial_component:hover {
 input:focus,
 textarea:focus,
 select:focus,
-.modal-close:focus {
+.modal-close:focus,
+.form_checkbox-icon-main:focus {
   outline: none !important; /* remove mouse/touch outline */
   box-shadow: none !important;
 }
@@ -321,13 +322,14 @@ select:focus,
 /* Show focus only for keyboard navigation (Tab / Shift+Tab) */
 input:focus-visible,
 textarea:focus-visible,
-select:focus-visible {
-  outline: 2px solid #f2c94c !important; /* force visible outline on keyboard nav */
+select:focus-visible,
+.form_checkbox-icon-main:focus-visible {
+  outline: 2px solid #ffd700 !important; /* force visible outline on keyboard nav */
   outline-offset: 0;
 }
 
 /* Keyboard-only focus state for modal close control */
 .modal-close:focus-visible {
-  outline: 2px solid #f2c94c !important; /* force visible outline on keyboard nav */
+  outline: 2px solid #ffd700 !important; /* force visible outline on keyboard nav */
   outline-offset: 2px;
 }
