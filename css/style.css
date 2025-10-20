@@ -322,12 +322,12 @@ select:focus,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid #f2c94c; /* Yellow brand color */
+  outline: 2px solid #f2c94c !important; /* force visible outline on keyboard nav */
   outline-offset: 0;
 }
 
 /* Keyboard-only focus state for modal close control */
 .modal-close:focus-visible {
-  outline: 2px solid #f2c94c; /* yellow focus indicator */
+  outline: 2px solid #f2c94c !important; /* force visible outline on keyboard nav */
   outline-offset: 2px;
 }
