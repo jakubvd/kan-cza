@@ -23,6 +23,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!hero || !navbar) return; // nothing to do without required elements
 
+  // Disable animation on mobile 480px and below
+  if (window.innerWidth <= 480) {
+    return; // skip scroll animation entirely
+  }
+
   // Animate CSS margin-top from current value (e.g., -100px) to 0 when
   // the bottom of the hero hits the top of the viewport. Reverse on scroll up.
   ScrollTrigger.create({
