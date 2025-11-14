@@ -1,96 +1,76 @@
-// ============================================================
-// VisionDevs - Tab Initialization Logic (Webflow - /uslugi)
-// ------------------------------------------------------------
-// Handles tab opening behavior depending on how the user arrived:
-// 1. From homepage buttons (with hash) → opens corresponding tab
-// 2. From nav/footer "Usługi" button → opens "Porada" tab at top
-// 3. Direct visit (no hash, no flag) → opens "Porada" by default
-// ============================================================
-
 document.addEventListener("DOMContentLoaded", function () {
-  // Get current URL hash (e.g., #opinia-prawna)
   const hash = location.hash.toLowerCase();
-  // Check if user came from navbar/footer
   const fromServiceButton = sessionStorage.getItem("fromServiceButton") === "true";
 
-  // Function: Open tab by its Webflow name
+  // Taby, które muszą startować z góry
+  const tabHashes = ["porada", "opinia", "pomoc"];
+
+  // Sekcje, których NIE DOTYKAMY (zero scrollTo)
+  const staticHashes = [
+    "#klienci-indywidualni",
+    "#klienci-biznesowi",
+    "#oferta-beauty"
+  ];
+
+  // Otwieranie tabów
   function openTab(tabName) {
-    const targetTab = document.querySelector(`.w-tab-menu [data-w-tab="${tabName}"]`);
+    const targetTab = document.querySelector(`[data-w-tab="${tabName}"]`);
     if (!targetTab) return;
 
-    // Scope all operations to the tabs component that contains the target tab
-    const tabsWrapper = targetTab.closest('.w-tabs') || document;
+    const tabsWrapper = targetTab.closest(".w-tabs");
 
-    // Remove active classes from all tab links and panes within the same tabs component
-    tabsWrapper.querySelectorAll('.w-tab-menu [data-w-tab]').forEach(tab => tab.classList.remove('w--current'));
-    tabsWrapper.querySelectorAll('.w-tab-pane').forEach(pane => pane.classList.remove('w--tab-active'));
+    tabsWrapper.querySelectorAll(".w-tab-menu [data-w-tab]")
+      .forEach(t => t.classList.remove("w--current"));
 
-    // Add active state to target tab
-    targetTab.classList.add('w--current');
-    const ariaControls = targetTab.getAttribute('aria-controls');
-    if (ariaControls) {
-      const activePane = tabsWrapper.querySelector(`#${ariaControls}`) || document.getElementById(ariaControls);
-      if (activePane) activePane.classList.add('w--tab-active');
-    }
+    tabsWrapper.querySelectorAll(".w-tab-pane")
+      .forEach(p => p.classList.remove("w--tab-active"));
 
-    // Ensure Webflow syncs internal state
+    targetTab.classList.add("w--current");
+
+    const paneId = targetTab.getAttribute("aria-controls");
+    const pane = tabsWrapper.querySelector(`#${paneId}`);
+    if (pane) pane.classList.add("w--tab-active");
+
     targetTab.click();
   }
 
-  // Function: Open tab based on hash (from homepage)
   function openTabFromHash(h) {
-    if (h.includes("opinia")) openTab("Opinia");
-    else if (h.includes("pomoc")) openTab("Pomoc");
-    else openTab("Porada");
+    if (h.includes("opinia")) return openTab("Opinia");
+    if (h.includes("pomoc")) return openTab("Pomoc");
+    return openTab("Porada");
   }
 
-  // Execute logic depending on entry type
   setTimeout(() => {
-    if (fromServiceButton) {
-      // Case 1: Clicked "Usługi" from nav/footer
-      sessionStorage.removeItem("fromServiceButton");
-      window.scrollTo({ top: 0, behavior: "instant" }); // Start at top
-      openTab("Porada");
-    } else if (hash && hash !== "#porada" && hash !== "#porada-prawna") {
-      // Case 2: Came from homepage buttons (with hash)
+
+    // 1. HASH NALEŻY DO SEKCJI → NIE DOTYKAMY SCROLLA
+    if (staticHashes.includes(hash)) {
+      const loadingWrap = document.querySelector(".loading-wrap");
+      if (loadingWrap) loadingWrap.classList.add("loaded");
+      return;
+    }
+
+    // 2. HASH NALEŻY DO TABÓW → SCROLL TO TOP
+    if (hash && tabHashes.some(k => hash.includes(k))) {
+      window.scrollTo(0, 0);
       openTabFromHash(hash);
-    } else {
-      // Case 3: Direct visit (no hash, no flag)
+    }
+
+    // 3. Przejście z menu/footer
+    else if (fromServiceButton) {
+      sessionStorage.removeItem("fromServiceButton");
+      window.scrollTo(0, 0);
       openTab("Porada");
     }
 
-    // Reveal content after tab setup
+    // 4. Wejście bez hasha → Porada od góry
+    else if (!hash) {
+      window.scrollTo(0, 0);
+      openTab("Porada");
+    }
+
+    // 5. Loading-wrap znika ZAWSZE
     const loadingWrap = document.querySelector(".loading-wrap");
     if (loadingWrap) loadingWrap.classList.add("loaded");
-  }, 100);
-});
 
-// --- Beauty Tab Activation Fix (using Webflow.push) ---
-window.Webflow = window.Webflow || [];
-window.Webflow.push(function () {
-  // 1. Select the Owner tab link and corresponding pane in the Beauty tabs
-  const beautyTab = document.querySelector('.oferta-beauty_tab-link[data-w-tab="Owner"]');
-  const beautyPane = document.querySelector('.oferta-beauty_tabs-content .w-tab-pane[data-w-tab="Owner"]');
-
-  // 2. Proceed only if both elements exist and the tab is not already active
-  if (beautyTab && beautyPane && !beautyTab.classList.contains('w--current')) {
-    // 3. Remove 'w--current' from all Beauty tab links
-    document.querySelectorAll('.oferta-beauty_tab-link').forEach(tab => {
-      tab.classList.remove('w--current');
-    });
-
-    // 4. Remove 'w--tab-active' from all Beauty tab panes
-    document.querySelectorAll('.oferta-beauty_tabs-content .w-tab-pane').forEach(pane => {
-      pane.classList.remove('w--tab-active');
-    });
-
-    // 5. Add 'w--current' to the Owner tab link
-    beautyTab.classList.add('w--current');
-
-    // 6. Add 'w--tab-active' to the Owner tab pane
-    beautyPane.classList.add('w--tab-active');
-
-    // 7. Trigger a click on the Owner tab link to sync Webflow's internal tab state properly
-    beautyTab.click();
-  }
+  }, 50);
 });
