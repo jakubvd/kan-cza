@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Wybieramy wszystkie liczniki w hero
-  const counters = document.querySelectorAll('.home-hero_stats-number');
+  const counters = document.querySelectorAll('[data-count]');
 
   if (!counters.length) return;
 
@@ -72,11 +72,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Główna funkcja odpalająca animację dla jednego elementu
   function runCounter(el) {
-    const originalText = el.textContent;
-    const { prefix, value, suffix } = parseNumberText(originalText);
-
-    const finalText = prefix + value + suffix;
-    lockWidth(el, finalText);
+    const value = parseInt(el.getAttribute('data-count'), 10);
+    const prefix = '';
+    const suffix = '';
+    const finalText = value;
+    lockWidth(el, finalText.toString());
 
     // Jeśli coś poszło nie tak z parsowaniem, nie kombinujemy
     if (!Number.isFinite(value)) return;
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
         duration: duration / 1000, // GSAP liczy w sekundach
         ease: 'power3.out',
         onUpdate: function () {
-          el.textContent = prefix + Math.round(obj.val) + suffix;
+          el.textContent = Math.round(obj.val);
         },
         onComplete: function () {
           el.textContent = finalText;
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     } else {
       // Vanilla fallback
-      animateNumberVanilla(el, 0, value, duration, prefix, suffix);
+      animateNumberVanilla(el, 0, value, duration, '', '');
       setTimeout(function () {
         el.textContent = finalText;
         unlockWidth(el);
