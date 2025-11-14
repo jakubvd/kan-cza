@@ -28,6 +28,28 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Vanilla fallback (bez GSAP) – płynna animacja liczby
+  // --- Lock width helpers to prevent layout jumps ---
+  function lockWidth(el, finalText) {
+    const clone = document.createElement('div');
+    clone.style.position = 'absolute';
+    clone.style.visibility = 'hidden';
+    clone.style.whiteSpace = 'nowrap';
+    clone.style.font = getComputedStyle(el).font;
+    clone.textContent = finalText;
+    document.body.appendChild(clone);
+
+    const width = clone.getBoundingClientRect().width + 'px';
+    document.body.removeChild(clone);
+
+    el.style.minWidth = width;
+    el.style.maxWidth = width;
+  }
+
+  function unlockWidth(el) {
+    el.style.minWidth = '';
+    el.style.maxWidth = '';
+  }
+
   function animateNumberVanilla(el, from, to, duration, prefix, suffix) {
     const start = performance.now();
     const diff = to - from;
@@ -53,6 +75,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const originalText = el.textContent;
     const { prefix, value, suffix } = parseNumberText(originalText);
 
+    const finalText = prefix + value + suffix;
+    lockWidth(el, finalText);
+
     // Jeśli coś poszło nie tak z parsowaniem, nie kombinujemy
     if (!Number.isFinite(value)) return;
 
@@ -74,10 +99,18 @@ document.addEventListener('DOMContentLoaded', function () {
         onUpdate: function () {
           el.textContent = prefix + Math.round(obj.val) + suffix;
         },
+        onComplete: function () {
+          el.textContent = finalText;
+          unlockWidth(el);
+        },
       });
     } else {
       // Vanilla fallback
       animateNumberVanilla(el, 0, value, duration, prefix, suffix);
+      setTimeout(function () {
+        el.textContent = finalText;
+        unlockWidth(el);
+      }, duration);
     }
   }
 
