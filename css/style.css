@@ -78,7 +78,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
 
 /* hover */
 .button.is-secondary:hover {
-  filter: brightness(1.3) saturate(1.5);
+  filter: brightness(1.4) saturate(1.75);
   box-shadow: 0px 6px 18px rgba(37, 37, 37, 0.25),
               0px 3px 8px rgba(0, 0, 0, 0.15);
 }
